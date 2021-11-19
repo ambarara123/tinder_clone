@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tinder_clone/app/pages/explore/explore.dart';
 import 'package:tinder_clone/app/pages/main/main_app_controller.dart';
 
 class MainApp extends StatefulWidget {
@@ -40,6 +41,7 @@ class _MainAppState extends State<MainApp> {
       },
       type: BottomNavigationBarType.fixed,
     );
+
   }
 
   List<BottomNavigationBarItem> getBottomBarItems() {
@@ -56,7 +58,13 @@ class _MainAppState extends State<MainApp> {
 
   Widget getBody(MainAppController controller) {
     return Obx(()=> IndexedStack(
-      index: controller.pageIndex.toInt(),
+      index: controller.pageIndex.value,
+      children: [
+        Explore(),
+        Explore(),
+        Explore(),
+        Explore()
+      ],
     ));
   }
 }

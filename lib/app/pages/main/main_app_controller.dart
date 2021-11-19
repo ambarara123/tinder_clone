@@ -4,6 +4,6 @@ class MainAppController extends GetxController{
   var pageIndex = 0.obs;
 
   setPageIndex(index){
-    pageIndex = index;
+    pageIndex.value = index;
   }
 }
