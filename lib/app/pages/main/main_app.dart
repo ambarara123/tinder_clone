@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tinder_clone/app/pages/explore/explore.dart';
+import 'package:tinder_clone/app/pages/explore/tindercard.dart';
 import 'package:tinder_clone/app/pages/main/main_app_controller.dart';
 
 class MainApp extends StatefulWidget {
@@ -60,10 +60,10 @@ class _MainAppState extends State<MainApp> {
     return Obx(()=> IndexedStack(
       index: controller.pageIndex.value,
       children: [
-        Explore(),
-        Explore(),
-        Explore(),
-        Explore()
+        TinderCard(),
+        TinderCard(),
+        TinderCard(),
+        TinderCard()
       ],
     ));
   }

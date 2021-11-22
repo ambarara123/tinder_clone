@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 
-class Explore extends StatefulWidget {
+class TinderCard extends StatefulWidget {
   @override
-  _ExploreState createState() => _ExploreState();
+  _TinderCardState createState() => _TinderCardState();
 }
 
-class _ExploreState extends State<Explore> {
+class _TinderCardState extends State<TinderCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +72,9 @@ class _ExploreState extends State<Explore> {
                   spreadRadius: 2,
                 ),
               ]
+            ),
+            child: ClipRRect(
+
             ),
           ),
         ),
