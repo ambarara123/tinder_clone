@@ -57,14 +57,52 @@ class _MainAppState extends State<MainApp> {
   }
 
   Widget getBody(MainAppController controller) {
-    return Obx(()=> IndexedStack(
-      index: controller.pageIndex.value,
+    return Obx(()=> getScreen(controller.pageIndex.value));
+  }
+
+  Widget getScreen(index){
+    Widget page;
+    switch(index) {
+      case 0: {
+        return getHomePage(index);
+        // statements;
+      }
+
+      case 1: {
+        return getHomePage(index);
+        //statements;
+      }
+
+      case 2: {
+        return getHomePage(index);
+        //statements;
+      }
+
+      case 3: {
+        return getHomePage(index);
+        //statements;
+      }
+
+      default: {
+        return getHomePage(index);
+        //statements;
+      }
+    }
+  }
+
+  Widget getHomePage(index){
+    return IndexedStack(
+      index: index,
       children: [
         TinderCard(),
         TinderCard(),
         TinderCard(),
         TinderCard()
       ],
-    ));
+    );
+  }
+
+  Widget getProfilePage(){
+    return Container();
   }
 }

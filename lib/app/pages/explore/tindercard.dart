@@ -74,7 +74,19 @@ class _TinderCardState extends State<TinderCard> {
               ]
             ),
             child: ClipRRect(
-
+              borderRadius: BorderRadius.circular(10.0),
+              child: Stack(
+                children: [
+                  Container(
+                    width: size.width,
+                    height: size.height,
+                    child: Image.network(
+                      "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",
+                      fit: BoxFit.fill,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
