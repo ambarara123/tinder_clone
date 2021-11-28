@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tinder_clone/app/pages/explore/tindercard.dart';
@@ -10,7 +9,6 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-
   @override
   Widget build(BuildContext context) {
     final MainAppController controller = Get.put(MainAppController());
@@ -26,14 +24,17 @@ class _MainAppState extends State<MainApp> {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      title: Text("Tinder",style: TextStyle(color: Colors.red),),
+      title: Text(
+        "Tinder",
+        style: TextStyle(color: Colors.red),
+      ),
     );
   }
 
   Widget getBottomBar(MainAppController controller) {
     return BottomNavigationBar(
       items: getBottomBarItems(),
-      onTap: (index){
+      onTap: (index) {
         setState(() {
           controller.setPageIndex(index);
           //printInfo(index.toString(),this)
@@ -41,68 +42,90 @@ class _MainAppState extends State<MainApp> {
       },
       type: BottomNavigationBarType.fixed,
     );
-
   }
 
   List<BottomNavigationBarItem> getBottomBarItems() {
     var icons = [
-      Icon(Icons.circle),Icon(Icons.circle),Icon(Icons.circle),Icon(Icons.circle)
+      ImageIcon(
+        AssetImage("assets/icons/tinder_white_icon_big"),
+        color: Colors.white,
+      ),
+      ImageIcon(
+        AssetImage("assets/icons/account_white_icon_big"),
+        color: Colors.white,
+      ),
+      ImageIcon(
+        AssetImage("assets/icons/alarm_white_icon_big"),
+        color: Colors.white,
+      ),
+      ImageIcon(
+        AssetImage("assets/icons/chat_white_icon_big"),
+        color: Colors.white,
+      )
     ];
     var activeIcons = [
-      Icon(Icons.play_circle_filled, color: Colors.red,),Icon(Icons.play_circle_filled, color: Colors.red),Icon(Icons.play_circle_filled, color: Colors.red),Icon(Icons.play_circle_filled, color: Colors.red)
+      Icon(
+        Icons.play_circle_filled,
+        color: Colors.red,
+      ),
+      Icon(Icons.play_circle_filled, color: Colors.red),
+      Icon(Icons.play_circle_filled, color: Colors.red),
+      Icon(Icons.play_circle_filled, color: Colors.red)
     ];
-    return List.generate(icons.length, (index)  {
-      return BottomNavigationBarItem(icon: icons[index],activeIcon: activeIcons[index], label: "");
+
+    return List.generate(icons.length, (index) {
+      return BottomNavigationBarItem(
+          icon: icons[index], activeIcon: activeIcons[index], label: "");
     });
   }
 
   Widget getBody(MainAppController controller) {
-    return Obx(()=> getScreen(controller.pageIndex.value));
+    return Obx(() => getScreen(controller.pageIndex.value));
   }
 
-  Widget getScreen(index){
+  Widget getScreen(index) {
     Widget page;
-    switch(index) {
-      case 0: {
-        return getHomePage(index);
-        // statements;
-      }
+    switch (index) {
+      case 0:
+        {
+          return getHomePage(index);
+          // statements;
+        }
 
-      case 1: {
-        return getHomePage(index);
-        //statements;
-      }
+      case 1:
+        {
+          return getHomePage(index);
+          //statements;
+        }
 
-      case 2: {
-        return getHomePage(index);
-        //statements;
-      }
+      case 2:
+        {
+          return getHomePage(index);
+          //statements;
+        }
 
-      case 3: {
-        return getHomePage(index);
-        //statements;
-      }
+      case 3:
+        {
+          return getHomePage(index);
+          //statements;
+        }
 
-      default: {
-        return getHomePage(index);
-        //statements;
-      }
+      default:
+        {
+          return getHomePage(index);
+          //statements;
+        }
     }
   }
 
-  Widget getHomePage(index){
+  Widget getHomePage(index) {
     return IndexedStack(
       index: index,
-      children: [
-        TinderCard(),
-        TinderCard(),
-        TinderCard(),
-        TinderCard()
-      ],
+      children: [TinderCard(), TinderCard(), TinderCard(), TinderCard()],
     );
   }
 
-  Widget getProfilePage(){
+  Widget getProfilePage() {
     return Container();
   }
 }
