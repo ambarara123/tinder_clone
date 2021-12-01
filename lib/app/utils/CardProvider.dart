@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CardProvider extends ChangeNotifier {
+  List<String> _imageUrls = [];
   bool _isDragging = false;
   Offset _position = Offset.zero;
   Size _screenSize = Size.zero;
@@ -9,12 +10,17 @@ class CardProvider extends ChangeNotifier {
   Offset get position => _position;
   bool get isDragging => _isDragging;
   double get angle => _angle;
+  List<String> get imageUrls => _imageUrls;
   // Size get screenSize => _screenSize;
 
   void start(DragStartDetails details){
     _isDragging = true;
 
     notifyListeners();
+  }
+
+  CardProvider(){
+    resetUsers();
   }
 
   void update(DragUpdateDetails details){
@@ -38,6 +44,17 @@ class CardProvider extends ChangeNotifier {
 
   void setScreenSize(Size size) {
     _screenSize = size;
+    notifyListeners();
+  }
+
+  void resetUsers() {
+    _imageUrls = <String>[
+      "https://picsum.photos/200/300?random=1",
+      "https://picsum.photos/200/300?random=2",
+      "https://picsum.photos/200/300?random=3",
+      "https://picsum.photos/200/300?random=4",
+      "https://picsum.photos/200/300?random=5"
+    ].reversed.toList();
     notifyListeners();
   }
 

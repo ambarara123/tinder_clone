@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:tinder_clone/app/pages/explore/tindercard.dart';
 import 'package:tinder_clone/app/pages/main/main_app_controller.dart';
+import 'package:tinder_clone/app/utils/CardProvider.dart';
 
 class MainApp extends StatefulWidget {
   @override
@@ -57,51 +59,50 @@ class _MainAppState extends State<MainApp> {
   }
 
   Widget getBody(MainAppController controller) {
-    return Obx(()=> getScreen(controller.pageIndex.value));
+    return getHomePage();
   }
 
   Widget getScreen(index){
     Widget page;
     switch(index) {
       case 0: {
-        return getHomePage(index);
+        return getHomePage();
         // statements;
       }
 
       case 1: {
-        return getHomePage(index);
+        return getHomePage();
         //statements;
       }
 
       case 2: {
-        return getHomePage(index);
+        return getHomePage();
         //statements;
       }
 
       case 3: {
-        return getHomePage(index);
+        return getHomePage();
         //statements;
       }
 
       default: {
-        return getHomePage(index);
+        return getHomePage();
         //statements;
       }
     }
   }
 
-  Widget getHomePage(index){
-    return IndexedStack(
-      index: index,
-      children: [
-        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
-        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
-        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
-        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
-        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
-        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
-      ],
+  Widget getHomePage(){
+    final provider = Provider.of<CardProvider>(context);
+    final imageUrls = provider.imageUrls;
+    return Stack(
+      children: imageUrls
+      .map((url) => TinderCard(
+          imageUrl: url,
+          isFront: imageUrls.last == url,
+      )).toList(),
     );
+
   }
 
   Widget getProfilePage(){

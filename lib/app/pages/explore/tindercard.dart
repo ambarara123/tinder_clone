@@ -6,8 +6,9 @@ import 'package:tinder_clone/app/utils/CardProvider.dart';
 
 class TinderCard extends StatefulWidget {
   final String imageUrl;
+  final bool isFront;
 
-  const TinderCard({Key? key, required this.imageUrl}) : super(key: key);
+  const TinderCard({Key? key, required this.imageUrl, required this.isFront}) : super(key: key);
 
   @override
   _TinderCardState createState() => _TinderCardState();
@@ -18,8 +19,6 @@ class _TinderCardState extends State<TinderCard> {
   @override
   void initState() {
     super.initState();
-
-
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       final size = MediaQuery.of(context).size;
       final provider = Provider.of<CardProvider>(context,listen: false);
@@ -32,7 +31,7 @@ class _TinderCardState extends State<TinderCard> {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: SizedBox.expand(
-        child: getCard(),
+        child: widget.isFront ? getFirstCard() : getCard(),
       ),
     );
   }
@@ -72,14 +71,15 @@ class _TinderCardState extends State<TinderCard> {
     );
   }
 
-  Widget getBody() {
+  Widget getCard() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
           image: NetworkImage(
-              "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg"),
+              widget.imageUrl
+          ),
           alignment: Alignment(-0.3, 0),
           fit: BoxFit.cover,
         )),
@@ -87,7 +87,7 @@ class _TinderCardState extends State<TinderCard> {
     );
   }
 
-  Widget getCard() => GestureDetector(
+  Widget getFirstCard() => GestureDetector(
         child: LayoutBuilder(builder: (context, constraints) {
           //we can initialize provider directly
           final provider = Provider.of<CardProvider>(context);
@@ -107,7 +107,7 @@ class _TinderCardState extends State<TinderCard> {
               milliseconds: animationDuration,
             ),
             transform: rotatedMatrix..translate(cardPosition.dx,cardPosition.dy),
-            child: getBody(),
+            child: getCard(),
             curve: Curves.easeInOut,
           );
         }),
