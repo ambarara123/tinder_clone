@@ -69,13 +69,10 @@ class CardProvider extends ChangeNotifier {
   }
 
   void resetUsers() {
-    _imageUrls = <String>[
-      "https://picsum.photos/200/300?random=1",
-      "https://picsum.photos/200/300?random=2",
-      "https://picsum.photos/200/300?random=3",
-      "https://picsum.photos/200/300?random=4",
-      "https://picsum.photos/200/300?random=5"
-    ].reversed.toList();
+    List<int>.generate(20, (i) {
+    _imageUrls.add("https://picsum.photos/200/300?random=$i");
+     return i + 1;
+    });
     notifyListeners();
   }
 
@@ -84,7 +81,7 @@ class CardProvider extends ChangeNotifier {
       return SwipeType.like;
     } else if (position.dx < -100) {
       return SwipeType.dislike;
-    } else if (position.dy < -50 && position.dx.abs() < 20) {
+    } else if (position.dy < -75 && position.dx.abs() < 20) {
       return SwipeType.superLike;
     }
     return SwipeType.nothing;
