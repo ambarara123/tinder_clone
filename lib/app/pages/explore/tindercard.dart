@@ -8,24 +8,24 @@ class TinderCard extends StatefulWidget {
   final String imageUrl;
   final bool isFront;
 
-  const TinderCard({Key? key, required this.imageUrl, required this.isFront}) : super(key: key);
+  const TinderCard({Key? key, required this.imageUrl, required this.isFront})
+      : super(key: key);
 
   @override
   _TinderCardState createState() => _TinderCardState();
 }
 
 class _TinderCardState extends State<TinderCard> {
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       final size = MediaQuery.of(context).size;
-      final provider = Provider.of<CardProvider>(context,listen: false);
+      final provider = Provider.of<CardProvider>(context, listen: false);
       provider.setScreenSize(size);
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -77,9 +77,7 @@ class _TinderCardState extends State<TinderCard> {
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: NetworkImage(
-              widget.imageUrl
-          ),
+          image: NetworkImage(widget.imageUrl),
           alignment: Alignment(-0.3, 0),
           fit: BoxFit.cover,
         )),
@@ -98,16 +96,19 @@ class _TinderCardState extends State<TinderCard> {
           final angle = provider.angle * pi / 180;
 
           final rotatedMatrix = Matrix4.identity()
-          ..translate(center.dx, center.dy)
-          ..rotateZ(angle)
-          ..translate(-center.dx, -center.dy);
+            ..translate(center.dx, center.dy)
+            ..rotateZ(angle)
+            ..translate(-center.dx, -center.dy);
 
           return AnimatedContainer(
             duration: Duration(
               milliseconds: animationDuration,
             ),
-            transform: rotatedMatrix..translate(cardPosition.dx,cardPosition.dy),
-            child: getCard(),
+            transform: rotatedMatrix
+              ..translate(cardPosition.dx, cardPosition.dy),
+            child: Stack(
+              children: [getCard(), getOverlayText()],
+            ),
             curve: Curves.easeInOut,
           );
         }),
@@ -124,4 +125,46 @@ class _TinderCardState extends State<TinderCard> {
           provider.end();
         },
       );
+
+  Widget getOverlayText() {
+    final provider = Provider.of<CardProvider>(context);
+    final cardType = provider.getType(force: true);
+
+    switch (cardType) {
+      case SwipeType.LIKE:
+        final stamp = getTypeText(angle: -0.5, color: Colors.white70, text: "LIKE");
+
+        return Positioned(top: 70, left: 30,child: stamp);
+      case SwipeType.DISLIKE:
+        final stamp = getTypeText(angle: 0.5,color: Colors.red, text: "NOPE");
+
+        return Positioned(top: 70, right: 30,child: stamp);
+
+      case SwipeType.SUPER_LIKE:
+        final stamp = getTypeText(color: Colors.blue, text: "SUPER\nLIKE");
+
+        return Positioned(bottom: 120,left: 100,child: stamp);
+      default: return Container();
+
+    }
+  }
+
+  Widget getTypeText(
+      {double angle = 0, required Color color, required String text}) {
+    return Transform.rotate(
+      angle: angle,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: color, width: 4)),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style:
+              TextStyle(color: color, fontSize: 40, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
 }

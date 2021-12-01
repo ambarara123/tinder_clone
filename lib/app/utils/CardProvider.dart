@@ -42,13 +42,13 @@ class CardProvider extends ChangeNotifier {
     final swipeType = getType();
 
     switch (swipeType) {
-      case SwipeType.like:
+      case SwipeType.LIKE:
         like();
         break;
-      case SwipeType.dislike:
+      case SwipeType.DISLIKE:
         disLike();
         break;
-      case SwipeType.superLike:
+      case SwipeType.SUPER_LIKE:
         superLike();
         break;
       default:
@@ -76,15 +76,24 @@ class CardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  SwipeType getType() {
-    if (_position.dx > 100) {
-      return SwipeType.like;
-    } else if (position.dx < -100) {
-      return SwipeType.dislike;
-    } else if (position.dy < -75 && position.dx.abs() < 20) {
-      return SwipeType.superLike;
+  SwipeType? getType({bool force = false}) {
+    if(force) {
+      if (_position.dx > 100) {
+        return SwipeType.LIKE;
+      } else if (position.dx < -100) {
+        return SwipeType.DISLIKE;
+      } else if (position.dy < -75 && position.dx.abs() < 20) {
+        return SwipeType.SUPER_LIKE;
+      }
+    }else{
+      if (_position.dx > 20) {
+        return SwipeType.LIKE;
+      } else if (position.dx < -20) {
+        return SwipeType.DISLIKE;
+      } else if (position.dy < -40 && position.dx.abs() < 20) {
+        return SwipeType.SUPER_LIKE;
+      }
     }
-    return SwipeType.nothing;
   }
 
   void like() {
@@ -120,4 +129,4 @@ class CardProvider extends ChangeNotifier {
   }
 }
 
-enum SwipeType { like, dislike, superLike, nothing }
+enum SwipeType { LIKE, DISLIKE, SUPER_LIKE }
