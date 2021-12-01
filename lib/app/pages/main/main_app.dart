@@ -94,10 +94,12 @@ class _MainAppState extends State<MainApp> {
     return IndexedStack(
       index: index,
       children: [
-        TinderCard(),
-        TinderCard(),
-        TinderCard(),
-        TinderCard()
+        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
+        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
+        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
+        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
+        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
+        TinderCard(imageUrl: "https://image.shutterstock.com/image-photo/autumn-park-yellow-trees-road-260nw-1527128807.jpg",),
       ],
     );
   }
