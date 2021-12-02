@@ -128,20 +128,21 @@ class _TinderCardState extends State<TinderCard> {
 
   Widget getOverlayText() {
     final provider = Provider.of<CardProvider>(context);
-    final cardType = provider.getType(force: true);
+    final cardType = provider.getType();
+    final cardOpacity = provider.getCardOpacity();
 
     switch (cardType) {
       case SwipeType.LIKE:
-        final stamp = getTypeText(angle: -0.5, color: Colors.white70, text: "LIKE");
+        final stamp = getTypeText(angle: -0.5, color: Colors.white70, text: "LIKE",opacity: cardOpacity);
 
         return Positioned(top: 70, left: 30,child: stamp);
       case SwipeType.DISLIKE:
-        final stamp = getTypeText(angle: 0.5,color: Colors.red, text: "NOPE");
+        final stamp = getTypeText(angle: 0.5,color: Colors.red, text: "NOPE",opacity: cardOpacity);
 
         return Positioned(top: 70, right: 30,child: stamp);
 
       case SwipeType.SUPER_LIKE:
-        final stamp = getTypeText(color: Colors.blue, text: "SUPER\nLIKE");
+        final stamp = getTypeText(color: Colors.blue, text: "SUPER\nLIKE",opacity: cardOpacity);
 
         return Positioned(bottom: 120,left: 100,child: stamp);
       default: return Container();
@@ -150,19 +151,22 @@ class _TinderCardState extends State<TinderCard> {
   }
 
   Widget getTypeText(
-      {double angle = 0, required Color color, required String text}) {
-    return Transform.rotate(
-      angle: angle,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: color, width: 4)),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style:
-              TextStyle(color: color, fontSize: 40, fontWeight: FontWeight.bold),
+      {double angle = 0, required Color color, required String text,required double opacity}) {
+    return Opacity(
+      opacity: opacity,
+      child: Transform.rotate(
+        angle: angle,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: color, width: 4)),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(color: color, fontSize: 40, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );

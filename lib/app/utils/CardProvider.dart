@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class CardProvider extends ChangeNotifier {
@@ -39,7 +41,7 @@ class CardProvider extends ChangeNotifier {
     _isDragging = false;
     notifyListeners();
 
-    final swipeType = getType();
+    final swipeType = getType(force: true);
 
     switch (swipeType) {
       case SwipeType.LIKE:
@@ -94,6 +96,12 @@ class CardProvider extends ChangeNotifier {
         return SwipeType.SUPER_LIKE;
       }
     }
+  }
+
+  double getCardOpacity() {
+    final delta = 100;
+    final pos = max(_position.dx.abs(), _position.dy.abs());
+    return min(pos/delta, 1);
   }
 
   void like() {
