@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tinder_clone/app/utils/CardProvider.dart';
+import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
+
+import 'package:tinder_clone/app/pages/main/card/CardController.dart';
 
 class TinderCard extends StatefulWidget {
   final String imageUrl;
@@ -16,13 +18,15 @@ class TinderCard extends StatefulWidget {
 }
 
 class _TinderCardState extends State<TinderCard> {
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       final size = MediaQuery.of(context).size;
-      final provider = Provider.of<CardProvider>(context, listen: false);
-      provider.setScreenSize(size);
+      CardController controller = Get.find();
+
+      controller.setScreenSize(size);
     });
   }
 
@@ -68,51 +72,51 @@ class _TinderCardState extends State<TinderCard> {
     );
   }
 
-  Widget getFirstCard() => GestureDetector(
-        child: LayoutBuilder(builder: (context, constraints) {
-          //we can initialize provider directly
-          final provider = Provider.of<CardProvider>(context);
-          final cardPosition = provider.position;
-          final animationDuration = provider.isDragging ? 0 : 400;
+  Widget getFirstCard() => GetBuilder<CardController>(
+      builder: (controller) => GestureDetector(
+          child: LayoutBuilder(builder: (context, constraints) {
 
-          final center = constraints.smallest.center(Offset.zero);
-          final angle = provider.angle * pi / 180;
+            final cardPosition = controller.position;
+            final animationDuration = controller.isDragging ? 0 : 400;
 
-          final rotatedMatrix = Matrix4.identity()
-            ..translate(center.dx, center.dy)
-            ..rotateZ(angle)
-            ..translate(-center.dx, -center.dy);
+            final center = constraints.smallest.center(Offset.zero);
+            final angle = controller.angle * pi / 180;
 
-          return AnimatedContainer(
-            duration: Duration(
-              milliseconds: animationDuration,
-            ),
-            transform: rotatedMatrix
-              ..translate(cardPosition.dx, cardPosition.dy),
-            child: Stack(
-              children: [getCard(), getOverlayText()],
-            ),
-            curve: Curves.easeInOut,
-          );
-        }),
-        onPanStart: (details) {
-          final provider = Provider.of<CardProvider>(context, listen: false);
-          provider.start(details);
-        },
-        onPanUpdate: (details) {
-          final provider = Provider.of<CardProvider>(context, listen: false);
-          provider.update(details);
-        },
-        onPanEnd: (details) {
-          final provider = Provider.of<CardProvider>(context, listen: false);
-          provider.end();
-        },
-      );
+            final rotatedMatrix = Matrix4.identity()
+              ..translate(center.dx, center.dy)
+              ..rotateZ(angle)
+              ..translate(-center.dx, -center.dy);
 
-  Widget getOverlayText() {
-    final provider = Provider.of<CardProvider>(context);
-    final cardType = provider.getType();
-    final cardOpacity = provider.getCardOpacity();
+            return AnimatedContainer(
+              duration: Duration(
+                milliseconds: animationDuration,
+              ),
+              transform: rotatedMatrix
+                ..translate(cardPosition.dx, cardPosition.dy),
+              child: Stack(
+                children: [getCard(), getOverlayText(controller)],
+              ),
+              curve: Curves.easeInOut,
+            );
+          }),
+          onPanStart: (details) {
+
+            controller.start(details);
+          },
+          onPanUpdate: (details) {
+
+            controller.updateDragDetails(details);
+          },
+          onPanEnd: (details) {
+
+            controller.end();
+          },
+        ),
+  );
+
+  Widget getOverlayText(CardController controller) {
+    final cardType = controller.getType();
+    final cardOpacity = controller.getCardOpacity();
 
     switch (cardType) {
       case SwipeType.LIKE:

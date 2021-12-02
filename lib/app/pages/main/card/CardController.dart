@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CardProvider extends ChangeNotifier {
+class CardController extends GetxController {
   List<String> _imageUrls = [];
   bool _isDragging = false;
   Offset _position = Offset.zero;
@@ -21,25 +22,26 @@ class CardProvider extends ChangeNotifier {
 
   void start(DragStartDetails details) {
     _isDragging = true;
-
-    notifyListeners();
+    update();
   }
 
-  CardProvider() {
+  @override
+  void onInit() {
+    super.onInit();
     resetUsers();
   }
 
-  void update(DragUpdateDetails details) {
+  void updateDragDetails(DragUpdateDetails details) {
     _position += details.delta;
     final x = _position.dx;
     _angle = 45 * x / _screenSize.width;
     //Notify listeners to render UI
-    notifyListeners();
+    update();
   }
 
   void end() {
     _isDragging = false;
-    notifyListeners();
+    update();
 
     final swipeType = getType(force: true);
 
@@ -62,12 +64,12 @@ class CardProvider extends ChangeNotifier {
     _isDragging = false;
     _position = Offset.zero;
     _angle = 0;
-    notifyListeners();
+    update();
   }
 
   void setScreenSize(Size size) {
     _screenSize = size;
-    notifyListeners();
+    update();
   }
 
   void resetUsers() {
@@ -75,7 +77,7 @@ class CardProvider extends ChangeNotifier {
     _imageUrls.add("https://picsum.photos/200/300?random=$i");
      return i + 1;
     });
-    notifyListeners();
+    update();
   }
 
   SwipeType? getType({bool force = false}) {
@@ -108,24 +110,21 @@ class CardProvider extends ChangeNotifier {
     _angle = 20;
     _position += Offset(_screenSize.width, 0);
     _showNextCard();
-
-    notifyListeners();
+    update();
   }
 
   void disLike() {
     _angle = -20;
     _position -= Offset(_screenSize.width, 0);
     _showNextCard();
-
-    notifyListeners();
+    update();
   }
 
   void superLike() {
     _angle = 0;
     _position -= Offset(0, _screenSize.height);
     _showNextCard();
-
-    notifyListeners();
+    update();
   }
 
   Future _showNextCard() async {

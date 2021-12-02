@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:tinder_clone/app/pages/explore/tindercard.dart';
+import 'package:tinder_clone/app/pages/main/card/tindercard.dart';
+
 import 'package:tinder_clone/app/pages/main/main_app_controller.dart';
-import 'package:tinder_clone/app/utils/CardProvider.dart';
+import 'package:tinder_clone/app/pages/main/card/CardController.dart';
 
 class MainApp extends StatefulWidget {
   @override
@@ -16,6 +16,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     final MainAppController controller = Get.put(MainAppController());
+    Get.put(CardController());
 
     return Container(
       decoration: BoxDecoration(
@@ -133,96 +134,97 @@ class _MainAppState extends State<MainApp> {
   }
 
   Widget getHomePage() {
-    final provider = Provider.of<CardProvider>(context);
-    final imageUrls = provider.imageUrls;
-    return Stack(
-      children: imageUrls
-          .map((url) => TinderCard(
-                imageUrl: url,
-                isFront: imageUrls.last == url,
-              ))
-          .toList(),
+
+
+    return GetBuilder<CardController>(
+      builder: (controller) => Stack(
+        children: controller.imageUrls
+            .map((url) => TinderCard(
+                  imageUrl: url,
+                  isFront: controller.imageUrls.last == url,
+                ))
+            .toList(),
+      ),
     );
   }
 
   Widget getProfilePage() {
     return Container();
   }
+  bool isLike(swipeType)=> swipeType == SwipeType.LIKE;
+  bool isSuperLike(swipeType)=> swipeType == SwipeType.SUPER_LIKE;
+  bool isDislike(swipeType)=> swipeType == SwipeType.DISLIKE;
 
   Widget getBottomButtons() {
-    final provider = Provider.of<CardProvider>(context);
-    final swipeType = provider.getType();
-    final isLike = swipeType == SwipeType.LIKE;
-    final isDislike = swipeType == SwipeType.DISLIKE;
-    final isSuperLike = swipeType == SwipeType.SUPER_LIKE;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.yellowAccent,false),
-              foregroundColor: getButtonBackgroundColor(Colors.yellow.shade100, Colors.white,false),
-              side: getButtonBorder(Colors.yellowAccent, Colors.black12,false)
-          ),
-          onPressed: () {},
-          child: RotatedBox(
-            quarterTurns: -1,
-            child: Icon(
-              Icons.refresh,
-            ),
-          ),
-        ),
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.red,isDislike),
-              foregroundColor: getButtonBackgroundColor(Colors.red, Colors.white,isDislike),
-            side: getButtonBorder(Colors.red, Colors.black12,isDislike)
-          ),
-            onPressed: () {
-              provider.disLike();
-            },
-            child: Icon(
-              Icons.clear,
-            )),
-        ElevatedButton(
+    return GetBuilder<CardController>(
+      builder: (controller) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton(
             style: ButtonStyle(
-                backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.blue,isSuperLike),
-                foregroundColor: getButtonBackgroundColor(Colors.blue, Colors.white,isSuperLike),
-                side: getButtonBorder(Colors.blue, Colors.black12,isSuperLike)
+                backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.yellowAccent,false),
+                foregroundColor: getButtonBackgroundColor(Colors.yellow.shade100, Colors.white,false),
+                side: getButtonBorder(Colors.yellowAccent, Colors.black12,false)
             ),
-            onPressed: () {
-              provider.superLike();
-            },
-            child: Icon(
-              Icons.star,
-            )),
-        ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.greenAccent,isLike),
-                foregroundColor: getButtonBackgroundColor(Colors.greenAccent, Colors.white,isLike),
-                side: getButtonBorder(Colors.greenAccent, Colors.black12,isLike)
-            ),
-            onPressed: () {
-              provider.like();
-            },
-            child: Icon(
-              Icons.favorite,
-            )),
-        RotatedBox(
-          quarterTurns: 3,
-          child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.purpleAccent,false),
-                  foregroundColor: getButtonBackgroundColor(Colors.purpleAccent, Colors.white,false),
-                  side: getButtonBorder(Colors.purpleAccent, Colors.black12,false)
-              ),
-              onPressed: () {},
+            onPressed: () {},
+            child: RotatedBox(
+              quarterTurns: -1,
               child: Icon(
-                Icons.timeline,
+                Icons.refresh,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.red,isDislike(controller.getType())),
+                foregroundColor: getButtonBackgroundColor(Colors.red, Colors.white,isDislike(controller.getType())),
+              side: getButtonBorder(Colors.red, Colors.black12,isDislike(controller.getType()))
+            ),
+              onPressed: () {
+                controller.disLike();
+              },
+              child: Icon(
+                Icons.clear,
               )),
-        ),
-      ],
+          ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.blue,isSuperLike(controller.getType())),
+                  foregroundColor: getButtonBackgroundColor(Colors.blue, Colors.white,isSuperLike(controller.getType())),
+                  side: getButtonBorder(Colors.blue, Colors.black12,isSuperLike(controller.getType()))
+              ),
+              onPressed: () {
+                controller.superLike();
+              },
+              child: Icon(
+                Icons.star,
+              )),
+          ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.greenAccent,isLike(controller.getType())),
+                  foregroundColor: getButtonBackgroundColor(Colors.greenAccent, Colors.white,isLike(controller.getType())),
+                  side: getButtonBorder(Colors.greenAccent, Colors.black12,isLike(controller.getType()))
+              ),
+              onPressed: () {
+                controller.like();
+              },
+              child: Icon(
+                Icons.favorite,
+              )),
+          RotatedBox(
+            quarterTurns: 3,
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.purpleAccent,false),
+                    foregroundColor: getButtonBackgroundColor(Colors.purpleAccent, Colors.white,false),
+                    side: getButtonBorder(Colors.purpleAccent, Colors.black12,false)
+                ),
+                onPressed: () {},
+                child: Icon(
+                  Icons.timeline,
+                )),
+          ),
+        ],
+      ),
     );
   }
 

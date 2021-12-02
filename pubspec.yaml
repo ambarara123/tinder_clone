@@ -24,8 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.1.4
-  flutter_tindercard: 0.2.0
-  provider: ^6.0.1
+
 
   cupertino_icons: ^1.0.2
 
