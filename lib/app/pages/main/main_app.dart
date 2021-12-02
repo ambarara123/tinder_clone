@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -12,15 +11,31 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  //Icons.local_fire_department_rounded
 
   @override
   Widget build(BuildContext context) {
     final MainAppController controller = Get.put(MainAppController());
 
-    return Scaffold(
-      appBar: appBar(),
-      bottomNavigationBar: getBottomBar(controller),
-      body: getBody(controller),
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+            Colors.white,
+            Colors.white,
+            Colors.white,
+            Colors.white,
+            Colors.white,
+            Colors.white70
+          ])),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: appBar(),
+        bottomNavigationBar: getBottomBar(controller),
+        body: getBody(controller),
+      ),
     );
   }
 
@@ -28,14 +43,17 @@ class _MainAppState extends State<MainApp> {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      title: Text("Tinder",style: TextStyle(color: Colors.red),),
+      title: Text(
+        "Tinder",
+        style: TextStyle(color: Colors.red),
+      ),
     );
   }
 
   Widget getBottomBar(MainAppController controller) {
     return BottomNavigationBar(
       items: getBottomBarItems(),
-      onTap: (index){
+      onTap: (index) {
         setState(() {
           controller.setPageIndex(index);
           //printInfo(index.toString(),this)
@@ -43,69 +61,188 @@ class _MainAppState extends State<MainApp> {
       },
       type: BottomNavigationBarType.fixed,
     );
-
   }
 
   List<BottomNavigationBarItem> getBottomBarItems() {
     var icons = [
-      Icon(Icons.circle),Icon(Icons.circle),Icon(Icons.circle),Icon(Icons.circle)
+      Icon(Icons.circle),
+      Icon(Icons.circle),
+      Icon(Icons.circle),
+      Icon(Icons.circle)
     ];
     var activeIcons = [
-      Icon(Icons.play_circle_filled, color: Colors.red,),Icon(Icons.play_circle_filled, color: Colors.red),Icon(Icons.play_circle_filled, color: Colors.red),Icon(Icons.play_circle_filled, color: Colors.red)
+      Icon(
+        Icons.play_circle_filled,
+        color: Colors.red,
+      ),
+      Icon(Icons.play_circle_filled, color: Colors.red),
+      Icon(Icons.play_circle_filled, color: Colors.red),
+      Icon(Icons.play_circle_filled, color: Colors.red)
     ];
-    return List.generate(icons.length, (index)  {
-      return BottomNavigationBarItem(icon: icons[index],activeIcon: activeIcons[index], label: "");
+    return List.generate(icons.length, (index) {
+      return BottomNavigationBarItem(
+          icon: icons[index], activeIcon: activeIcons[index], label: "");
     });
   }
 
   Widget getBody(MainAppController controller) {
-    return getHomePage();
+    return Stack(children: [
+      getHomePage(),
+      Positioned(
+        child: getBottomButtons(),
+        bottom: 30,
+        left: 10,
+        right: 10,
+      )
+    ]);
   }
 
-  Widget getScreen(index){
+  Widget getScreen(index) {
     Widget page;
-    switch(index) {
-      case 0: {
-        return getHomePage();
-        // statements;
-      }
+    switch (index) {
+      case 0:
+        {
+          return getHomePage();
+          // statements;
+        }
 
-      case 1: {
-        return getHomePage();
-        //statements;
-      }
+      case 1:
+        {
+          return getHomePage();
+          //statements;
+        }
 
-      case 2: {
-        return getHomePage();
-        //statements;
-      }
+      case 2:
+        {
+          return getHomePage();
+          //statements;
+        }
 
-      case 3: {
-        return getHomePage();
-        //statements;
-      }
+      case 3:
+        {
+          return getHomePage();
+          //statements;
+        }
 
-      default: {
-        return getHomePage();
-        //statements;
-      }
+      default:
+        {
+          return getHomePage();
+          //statements;
+        }
     }
   }
 
-  Widget getHomePage(){
+  Widget getHomePage() {
     final provider = Provider.of<CardProvider>(context);
     final imageUrls = provider.imageUrls;
     return Stack(
       children: imageUrls
-      .map((url) => TinderCard(
-          imageUrl: url,
-          isFront: imageUrls.last == url,
-      )).toList(),
+          .map((url) => TinderCard(
+                imageUrl: url,
+                isFront: imageUrls.last == url,
+              ))
+          .toList(),
     );
-
   }
 
-  Widget getProfilePage(){
+  Widget getProfilePage() {
     return Container();
+  }
+
+  Widget getBottomButtons() {
+    final provider = Provider.of<CardProvider>(context);
+    final swipeType = provider.getType();
+    final isLike = swipeType == SwipeType.LIKE;
+    final isDislike = swipeType == SwipeType.DISLIKE;
+    final isSuperLike = swipeType == SwipeType.SUPER_LIKE;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.yellowAccent,false),
+              foregroundColor: getButtonBackgroundColor(Colors.yellow.shade100, Colors.white,false),
+              side: getButtonBorder(Colors.yellowAccent, Colors.black12,false)
+          ),
+          onPressed: () {},
+          child: RotatedBox(
+            quarterTurns: -1,
+            child: Icon(
+              Icons.refresh,
+            ),
+          ),
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.red,isDislike),
+              foregroundColor: getButtonBackgroundColor(Colors.red, Colors.white,isDislike),
+            side: getButtonBorder(Colors.red, Colors.black12,isDislike)
+          ),
+            onPressed: () {
+              provider.disLike();
+            },
+            child: Icon(
+              Icons.clear,
+            )),
+        ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.blue,isSuperLike),
+                foregroundColor: getButtonBackgroundColor(Colors.blue, Colors.white,isSuperLike),
+                side: getButtonBorder(Colors.blue, Colors.black12,isSuperLike)
+            ),
+            onPressed: () {
+              provider.superLike();
+            },
+            child: Icon(
+              Icons.star,
+            )),
+        ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.greenAccent,isLike),
+                foregroundColor: getButtonBackgroundColor(Colors.greenAccent, Colors.white,isLike),
+                side: getButtonBorder(Colors.greenAccent, Colors.black12,isLike)
+            ),
+            onPressed: () {
+              provider.like();
+            },
+            child: Icon(
+              Icons.favorite,
+            )),
+        RotatedBox(
+          quarterTurns: 3,
+          child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: getButtonBackgroundColor(Colors.transparent,Colors.purpleAccent,false),
+                  foregroundColor: getButtonBackgroundColor(Colors.purpleAccent, Colors.white,false),
+                  side: getButtonBorder(Colors.purpleAccent, Colors.black12,false)
+              ),
+              onPressed: () {},
+              child: Icon(
+                Icons.timeline,
+              )),
+        ),
+      ],
+    );
+  }
+
+  MaterialStateProperty<Color> getButtonBackgroundColor(Color color, Color colorPressed, bool isForced) {
+    final colors = (Set<MaterialState> states){
+      if(isForced || states.contains(MaterialState.pressed)){
+        return colorPressed;
+      }
+      return color;
+    };
+    return MaterialStateProperty.resolveWith(colors);
+  }
+
+  MaterialStateProperty<BorderSide> getButtonBorder(Color color, Color colorPressed, bool isForced) {
+    final borderColor = (Set<MaterialState> states){
+      if(isForced || states.contains(MaterialState.pressed)){
+        return BorderSide(color: colorPressed, width: 2);
+      }
+      return  BorderSide(color: color, width: 2);;
+    };
+    return MaterialStateProperty.resolveWith(borderColor);
   }
 }
