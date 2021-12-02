@@ -36,51 +36,34 @@ class _TinderCardState extends State<TinderCard> {
     );
   }
 
-  Widget getBottomSheet() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 100,
-      decoration: BoxDecoration(color: Colors.white),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(5, (index) {
-            return Container(
-              width: 45,
-              height: 45,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        spreadRadius: 5,
-                        blurRadius: 10)
-                  ]),
-              child: Center(
-                child: Icon(
-                  Icons.refresh,
-                  color: Colors.yellow,
-                ),
-              ),
-            );
-          }),
-        ),
-      ),
-    );
-  }
-
   Widget getCard() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
-      child: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: NetworkImage(widget.imageUrl),
-          alignment: Alignment(-0.3, 0),
-          fit: BoxFit.cover,
-        )),
+      child: Stack(
+        children: [Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: NetworkImage(widget.imageUrl),
+            alignment: Alignment(-0.3, 0),
+            fit: BoxFit.cover,
+          )),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.black45,
+                Colors.black
+              ]
+            )
+          ),
+        )
+        ],
       ),
     );
   }
