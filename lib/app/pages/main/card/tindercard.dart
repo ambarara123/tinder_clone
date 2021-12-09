@@ -48,7 +48,6 @@ class _TinderCardState extends State<TinderCard> {
           decoration: BoxDecoration(
               image: DecorationImage(
             image: NetworkImage(widget.imageUrl),
-            alignment: Alignment(-0.3, 0),
             fit: BoxFit.cover,
           )),
         ),

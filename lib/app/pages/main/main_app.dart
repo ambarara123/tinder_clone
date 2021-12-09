@@ -15,7 +15,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    final MainAppController controller = Get.put(MainAppController());
+    final MainAppController controller = Get.find();
     Get.put(CardController());
 
     return Container(
@@ -243,7 +243,7 @@ class _MainAppState extends State<MainApp> {
       if(isForced || states.contains(MaterialState.pressed)){
         return BorderSide(color: colorPressed, width: 2);
       }
-      return  BorderSide(color: color, width: 2);;
+      return  BorderSide(color: color, width: 2);
     };
     return MaterialStateProperty.resolveWith(borderColor);
   }

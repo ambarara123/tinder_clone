@@ -35,7 +35,6 @@ class CardController extends GetxController {
     _position += details.delta;
     final x = _position.dx;
     _angle = 45 * x / _screenSize.width;
-    //Notify listeners to render UI
     update();
   }
 
