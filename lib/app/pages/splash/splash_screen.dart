@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: Curves.easeInOutCirc,
     ));
-    Timer(Duration(milliseconds: 2800), () => Get.to(() => MainApp()));
+    Timer(Duration(milliseconds: 2800), () => Get.off(() => MainApp()));
   }
 
   @override
