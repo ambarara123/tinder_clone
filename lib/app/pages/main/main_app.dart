@@ -48,6 +48,14 @@ class _MainAppState extends State<MainApp> {
         "Tinder",
         style: TextStyle(color: Colors.red),
       ),
+      leading:  Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Icon(
+          Icons.local_fire_department,
+          color: Colors.red,
+        ),
+      ),
+      leadingWidth: 20,
     );
   }
 
@@ -66,19 +74,19 @@ class _MainAppState extends State<MainApp> {
 
   List<BottomNavigationBarItem> getBottomBarItems() {
     var icons = [
-      Icon(Icons.circle),
-      Icon(Icons.circle),
-      Icon(Icons.circle),
-      Icon(Icons.circle)
+      Icon(Icons.local_fire_department),
+      Icon(Icons.explore_outlined),
+      Icon(Icons.star_outline_sharp),
+      Icon(Icons.messenger_outline),
     ];
     var activeIcons = [
       Icon(
-        Icons.play_circle_filled,
+        Icons.local_fire_department,
         color: Colors.red,
       ),
       Icon(Icons.play_circle_filled, color: Colors.red),
-      Icon(Icons.play_circle_filled, color: Colors.red),
-      Icon(Icons.play_circle_filled, color: Colors.red)
+      Icon(Icons.star_outline_sharp, color: Colors.red),
+      Icon(Icons.messenger)
     ];
     return List.generate(icons.length, (index) {
       return BottomNavigationBarItem(
