@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tinder_clone/app/pages/main/card/tindercard.dart';
-import 'package:tinder_clone/app/pages/main/main_app_controller.dart';
-import 'package:tinder_clone/app/pages/main/card/CardController.dart';
+import 'package:tinder_clone/app/core/components/card/tindercard.dart';
+import 'package:tinder_clone/feature/home/home_screen_controller.dart';
 
-class MainApp extends StatefulWidget {
+import '../../app/core/components/card/CardController.dart';
+
+class HomeScreen extends StatefulWidget {
   @override
-  _MainAppState createState() => _MainAppState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _HomeScreenState extends State<HomeScreen> {
   //Icons.local_fire_department_rounded
 
   @override
   Widget build(BuildContext context) {
-    final MainAppController controller = Get.find();
+    final HomeScreenController controller = Get.find();
     Get.put(CardController());
 
     return Container(
@@ -58,7 +59,7 @@ class _MainAppState extends State<MainApp> {
     );
   }
 
-  Widget getBottomBar(MainAppController controller) {
+  Widget getBottomBar(HomeScreenController controller) {
     return BottomNavigationBar(
       items: getBottomBarItems(),
       onTap: (index) {
@@ -93,7 +94,7 @@ class _MainAppState extends State<MainApp> {
     });
   }
 
-  Widget getBody(MainAppController controller) {
+  Widget getBody(HomeScreenController controller) {
     return Stack(children: [
       getHomePage(),
       Positioned(
@@ -141,8 +142,6 @@ class _MainAppState extends State<MainApp> {
   }
 
   Widget getHomePage() {
-
-
     return GetBuilder<CardController>(
       builder: (controller) => Stack(
         children: controller.imageUrls

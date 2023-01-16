@@ -3,8 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:get/get.dart';
-
-import 'package:tinder_clone/app/pages/main/card/CardController.dart';
+import 'package:tinder_clone/app/core/components/card/CardController.dart';
 
 class TinderCard extends StatefulWidget {
   final String imageUrl;

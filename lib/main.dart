@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:tinder_clone/app/pages/main/main_app.dart';
-import 'package:tinder_clone/app/pages/splash/splash_screen.dart';
+import 'feature/splash/splash_screen.dart';
+
 
 void main() {
   runApp(const MyTinderApp());
