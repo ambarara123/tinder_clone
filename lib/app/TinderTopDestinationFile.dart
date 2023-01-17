@@ -12,9 +12,10 @@ import 'package:tinder_clone/feature/top_likes/TopLikesScreen.dart';
 final TopDestinationNavController controller = Get.put(TopDestinationNavController());
 
 class TinderTopDestinationFile extends StatelessWidget {
-  const TinderTopDestinationFile({Key? key}) : super(key: key);
+  TinderTopDestinationFile({Key? key}) : super(key: key);
 
-  final List<Widget> screens = const [
+  final List<Widget> screens = [
+    HomeScreen(),
     ExploreScreen(),
     TopLikesScreen(),
     ChatScreen(),
@@ -26,12 +27,11 @@ class TinderTopDestinationFile extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(
-          showSelectedLabels: false,
           unselectedItemColor: Colors.grey,
           currentIndex: controller.currentBottomNavItemIndex.value,
           showUnselectedLabels: true,
           onTap: controller.switchBetweenBottomNavigationItems,
-          fixedColor: Colors.black.withAlpha(5),
+          fixedColor: Colors.black,
           items: TinderData.bottomNavigationItems
               .map(
                 (element) => BottomNavigationBarItem(

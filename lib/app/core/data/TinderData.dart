@@ -3,9 +3,10 @@ import 'package:tinder_clone/app/data/model/BottomNavigationItemModel.dart';
 
 class TinderData {
   static List<BottomNavigationItemModel> bottomNavigationItems = [
-    BottomNavigationItemModel(const Icon(Icons.home), 'Explore'),
-    BottomNavigationItemModel(const Icon(Icons.add_shopping_cart_rounded), 'Top Picks'),
-    BottomNavigationItemModel(const Icon(Icons.bookmark), 'Chat'),
+    BottomNavigationItemModel(const Icon(Icons.fire_extinguisher), 'Home'),
+    BottomNavigationItemModel(const Icon(Icons.explore), 'Explore'),
+    BottomNavigationItemModel(const Icon(Icons.thumbs_up_down), 'Top Picks'),
+    BottomNavigationItemModel(const Icon(Icons.message), 'Chat'),
     BottomNavigationItemModel(const Icon(Icons.person), 'Profile')
   ];
 }
