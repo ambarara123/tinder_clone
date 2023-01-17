@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tinder_clone/app/pages/main/main_app.dart';
-import 'package:tinder_clone/app/pages/main/main_app_controller.dart';
+import 'package:tinder_clone/app/TinderTopDestinationFile.dart';
+import 'package:tinder_clone/feature/home/home_screen.dart';
+import 'package:tinder_clone/feature/home/home_screen_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    var appController = Get.put(MainAppController());
+    var appController = Get.put(HomeScreenController());
 
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
@@ -38,12 +39,12 @@ class _SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: Curves.easeInOutCirc,
     ));
-    Timer(Duration(milliseconds: 2800), () => Get.off(() => MainApp()));
+    Timer(Duration(milliseconds: 2800), () => Get.off(() => TinderTopDestinationFile()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MainAppController>(
+    return GetBuilder<HomeScreenController>(
         builder: (controller) => Stack(
               children: [
                 Container(

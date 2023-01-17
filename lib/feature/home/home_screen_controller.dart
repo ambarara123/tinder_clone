@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 
-class MainAppController extends GetxController{
+class HomeScreenController extends GetxController{
   var pageIndex = 0.obs;
   bool first = true;
 
